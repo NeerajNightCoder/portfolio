@@ -5,6 +5,8 @@ import InfiniteMarquee from '../components/InfiniteMarquee';
 import ProjectExplorer from '../components/ProjectExplorer';
 import { useTheme } from '../context/ThemeContext';
 import { SiReact, SiTypescript, SiNodedotjs, SiPostgresql, SiTailwindcss, SiVite, SiDocker, SiNextdotjs, SiAmazonwebservices, SiFigma } from 'react-icons/si';
+import { ScrollReveal } from '../components/ScrollReveal';
+import profileImg from '../assets/profile.png';
 
 const projectDetails: Record<string, any> = {
     capes: {
@@ -133,42 +135,59 @@ const Home = () => {
             <section id="hero" className="pt-40 pb-20 px-6 relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-indigo-50/50 dark:bg-indigo-900/10 blur-[120px] rounded-full -z-10" />
 
-                <div className="max-w-4xl mx-auto text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800">
-                            Crafting Digital Excellence
-                        </span>
-                        <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 text-gray-900 dark:text-white leading-[1.1] pb-2">
-                            Building the <br />
-                            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 italic py-2">Future</span> of Web.
-                        </h1>
-                        <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-                            I architect high-performance digital products that blend stunning design with robust engineering. Currently innovating at the intersection of AI and Fintech.
-                        </p>
-                    </motion.div>
-                </div>
+                <ScrollReveal key="hero-reveal" direction="up" duration={1} distance={80}>
+                    <div className="max-w-4xl mx-auto text-center">
+                        <div className="mb-10 flex justify-center">
+                            <motion.div
+                                animate={{ y: [0, -10, 0] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="relative group"
+                            >
+                                <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
+                                <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white dark:border-gray-900 shadow-2xl overflow-hidden ring-1 ring-gray-100 dark:ring-gray-800">
+                                    <img
+                                        src={profileImg}
+                                        alt="Kumar Neeraj"
+                                        className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                                    />
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        <div>
+                            <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-8 border border-indigo-100 dark:border-indigo-800">
+                                Crafting Digital Excellence
+                            </span>
+                            <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-8 text-gray-900 dark:text-white leading-[1.1] pb-2">
+                                Building the <br />
+                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 italic py-2">Future</span> of Web.
+                            </h1>
+                            <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+                                I architect high-performance digital products that blend stunning design with robust engineering. Currently innovating at the intersection of AI and Fintech.
+                            </p>
+                        </div>
+                    </div>
+                </ScrollReveal>
             </section>
 
             {/* Tech Marquee */}
-            <section className="py-20 border-y border-gray-100 dark:border-gray-800 bg-gray-50/20 dark:bg-gray-900/20 overflow-hidden transition-colors duration-500">
-                <div className="max-w-6xl mx-auto mb-10 px-6 text-center">
-                    <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 transition-colors duration-500">technologies I master</span>
-                </div>
-                <InfiniteMarquee speed="50s" className="py-4">
-                    {techStack.map((tech) => (
-                        <div key={tech.name} className="flex items-center gap-4 px-12 group">
-                            <tech.icon size={32} className={`${tech.color} opacity-40 group-hover:opacity-100 transition-all duration-500 grayscale group-hover:grayscale-0 scale-90 group-hover:scale-110`} />
-                            <span className="text-2xl font-black tracking-tighter text-gray-300 dark:text-gray-700 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-500">
-                                {tech.name}
-                            </span>
-                        </div>
-                    ))}
-                </InfiniteMarquee>
-            </section>
+            <ScrollReveal key="tech-marquee" direction="none" duration={1.2}>
+                <section className="py-20 border-y border-gray-100 dark:border-gray-800 bg-gray-50/20 dark:bg-gray-900/20 overflow-hidden transition-colors duration-500">
+                    <div className="max-w-6xl mx-auto mb-10 px-6 text-center">
+                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 transition-colors duration-500">technologies I master</span>
+                    </div>
+                    <InfiniteMarquee speed="50s" className="py-4">
+                        {techStack.map((tech) => (
+                            <div key={tech.name} className="flex items-center gap-6 px-16 group">
+                                <tech.icon size={50} className={`${tech.color} opacity-40 group-hover:opacity-100 transition-all duration-500 grayscale group-hover:grayscale-0 scale-90 group-hover:scale-110`} />
+                                <span className="text-4xl font-black tracking-tighter text-gray-300 dark:text-gray-700 group-hover:text-gray-900 dark:group-hover:text-white transition-colors duration-500">
+                                    {tech.name}
+                                </span>
+                            </div>
+                        ))}
+                    </InfiniteMarquee>
+                </section>
+            </ScrollReveal>
 
 
             {/* Live Showcase Section */}
@@ -176,32 +195,37 @@ const Home = () => {
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,#f5f7ff_0%,transparent_100%)] dark:bg-[radial-gradient(circle_at_50%_50%,#1a1c2e_0%,transparent_100%)] opacity-50 -z-10 transition-colors duration-700" />
 
                 <div className="max-w-7xl mx-auto">
-                    <div className="text-center mb-16">
-                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-600/60 dark:text-indigo-400/60 mb-4 block">Showcase</span>
-                        <h2 className="text-5xl font-black tracking-tighter text-gray-900 dark:text-white">My Works.</h2>
-                    </div>
-                    {/* Tab Switcher */}
-                    <div className="flex justify-center mb-16">
-                        <div className="bg-gray-50 dark:bg-gray-900 p-2 rounded-2xl flex relative border border-gray-100 dark:border-gray-800 shadow-sm">
-                            {projects.map((project) => (
-                                <button
-                                    key={project.id}
-                                    onClick={() => setActiveProject(project.id)}
-                                    className={`relative z-10 px-16 py-4 text-sm font-bold transition-colors duration-300 min-w-[200px] ${activeProject === project.id ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
-                                        }`}
-                                >
-                                    {project.name}
-                                    {activeProject === project.id && (
-                                        <motion.div
-                                            layoutId="activeTab"
-                                            className="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-md -z-10 border border-gray-100 dark:border-gray-700"
-                                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                                        />
-                                    )}
-                                </button>
-                            ))}
+                    <ScrollReveal key="work-title" direction="up" distance={30}>
+                        <div className="text-center mb-16">
+                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-600/60 dark:text-indigo-400/60 mb-4 block">Showcase</span>
+                            <h2 className="text-5xl font-black tracking-tighter text-gray-900 dark:text-white">My Works.</h2>
                         </div>
-                    </div>
+                    </ScrollReveal>
+
+                    {/* Tab Switcher */}
+                    <ScrollReveal key="project-tabs" direction="up" delay={0.2} distance={30}>
+                        <div className="flex justify-center mb-16">
+                            <div className="bg-gray-50 dark:bg-gray-900 p-2 rounded-2xl flex relative border border-gray-100 dark:border-gray-800 shadow-sm">
+                                {projects.map((project) => (
+                                    <button
+                                        key={project.id}
+                                        onClick={() => setActiveProject(project.id)}
+                                        className={`relative z-10 px-16 py-4 text-sm font-bold transition-colors duration-300 min-w-[200px] ${activeProject === project.id ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                            }`}
+                                    >
+                                        {project.name}
+                                        {activeProject === project.id && (
+                                            <motion.div
+                                                layoutId="activeTab"
+                                                className="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-md -z-10 border border-gray-100 dark:border-gray-700"
+                                                transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                            />
+                                        )}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </ScrollReveal>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 items-start mb-20">
                         {/* Info Column */}
@@ -253,23 +277,21 @@ const Home = () => {
 
                         {/* Browser Column */}
                         <div className="lg:col-span-2">
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                            >
-                                <div className="mb-8 flex items-center justify-between px-2">
-                                    <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">Interactive Environment</h3>
-                                    <div className="flex gap-1.5">
-                                        {[1, 2, 3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700" />)}
+                            <ScrollReveal key="project-browser" direction="right" distance={50} delay={0.4}>
+                                <div>
+                                    <div className="mb-8 flex items-center justify-between px-2">
+                                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500">Interactive Environment</h3>
+                                        <div className="flex gap-1.5">
+                                            {[1, 2, 3].map(i => <div key={i} className="w-1.5 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700" />)}
+                                        </div>
                                     </div>
+                                    <ProjectExplorer
+                                        name={projectDetails[activeProject].name.split('.')[0]}
+                                        url={projectDetails[activeProject].url}
+                                        color={projectDetails[activeProject].brandColor}
+                                    />
                                 </div>
-                                <ProjectExplorer
-                                    name={projectDetails[activeProject].name.split('.')[0]}
-                                    url={projectDetails[activeProject].url}
-                                    color={projectDetails[activeProject].brandColor}
-                                />
-                            </motion.div>
+                            </ScrollReveal>
                         </div>
                     </div>
                 </div>
@@ -278,13 +300,15 @@ const Home = () => {
             {/* Endorsements Section */}
             <section id="about" className="py-32 px-6 bg-gray-50/50 dark:bg-gray-900/50 transition-colors duration-500">
                 <div className="max-w-6xl mx-auto">
-                    <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
-                        <div className="max-w-2xl">
-                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-600/60 dark:text-indigo-400/60 mb-4 block transition-colors duration-500">Endorsements</span>
-                            <h2 className="text-5xl font-black tracking-tighter text-gray-900 dark:text-white mb-6 transition-colors duration-500">Trusted by Industry Leaders.</h2>
-                            <p className="text-gray-500 dark:text-gray-400 text-lg font-medium transition-colors duration-500">Collaborating with visionary teams to build the next generation of digital products.</p>
+                    <ScrollReveal key="endorsements-title" direction="up">
+                        <div className="flex flex-col md:flex-row justify-between items-end gap-8 mb-20">
+                            <div className="max-w-2xl">
+                                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-indigo-600/60 dark:text-indigo-400/60 mb-4 block transition-colors duration-500">Endorsements</span>
+                                <h2 className="text-5xl font-black tracking-tighter text-gray-900 dark:text-white mb-6 transition-colors duration-500">Trusted by Industry Leaders.</h2>
+                                <p className="text-gray-500 dark:text-gray-400 text-lg font-medium transition-colors duration-500">Collaborating with visionary teams to build the next generation of digital products.</p>
+                            </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
@@ -307,30 +331,25 @@ const Home = () => {
                                 avatar: "MT"
                             }
                         ].map((testimonial, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.1 }}
-                                className="bg-white dark:bg-gray-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-500 group"
-                            >
-                                <div className="flex gap-1 mb-6">
-                                    {[1, 2, 3, 4, 5].map(star => <Zap key={star} size={12} className="text-amber-400 fill-amber-400" />)}
-                                </div>
-                                <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed mb-8 italic">
-                                    "{testimonial.quote}"
-                                </p>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-indigo-50 border border-indigo-100 dark:bg-indigo-900 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-black text-xs shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                                        {testimonial.avatar}
+                            <ScrollReveal key={`testimonial-${i}`} direction="up" delay={i * 0.15}>
+                                <div className="bg-white dark:bg-gray-900 p-8 rounded-[2.5rem] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-500 group">
+                                    <div className="flex gap-1 mb-6">
+                                        {[1, 2, 3, 4, 5].map(star => <Zap key={star} size={12} className="text-amber-400 fill-amber-400" />)}
                                     </div>
-                                    <div>
-                                        <p className="font-bold text-gray-900 dark:text-white text-sm">{testimonial.name}</p>
-                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{testimonial.role}</p>
+                                    <p className="text-gray-600 dark:text-gray-400 font-medium leading-relaxed mb-8 italic">
+                                        "{testimonial.quote}"
+                                    </p>
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-12 rounded-full bg-indigo-50 border border-indigo-100 dark:bg-indigo-900 dark:border-indigo-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-black text-xs shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                                            {testimonial.avatar}
+                                        </div>
+                                        <div>
+                                            <p className="font-bold text-gray-900 dark:text-white text-sm">{testimonial.name}</p>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{testimonial.role}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </ScrollReveal>
                         ))}
                     </div>
                 </div>
@@ -344,27 +363,24 @@ const Home = () => {
                 <div className="max-w-7xl mx-auto">
                     {/* Top CTA Section */}
                     <div className="flex flex-col lg:flex-row justify-between items-start gap-12 mb-32">
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            className="relative overflow-visible"
-                        >
-                            <h2 className="text-6xl md:text-7xl font-black tracking-tight mb-8 leading-[1.3] text-gray-900 dark:text-white overflow-visible">
-                                Ready to build the <br />
-                                <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 italic py-8 -my-8 pr-12" style={{ WebkitBoxDecorationBreak: 'clone', boxDecorationBreak: 'clone' }}>next big thing?</span>
-                            </h2>
-                            <p className="text-xl text-gray-500 dark:text-gray-400 font-medium mb-10 max-w-lg">
-                                I'm currently available for freelance projects and full-time opportunities. Let's create something extraordinary together.
-                            </p>
-                            <a
-                                href="mailto:kumar.neeraj.developer@gmail.com"
-                                className="inline-flex items-center gap-4 bg-black dark:bg-white text-white dark:text-black px-10 py-5 rounded-full text-lg font-bold hover:bg-indigo-600 dark:hover:bg-indigo-400 hover:shadow-2xl hover:shadow-indigo-200 dark:hover:shadow-indigo-900/40 transition-all duration-500 group"
-                            >
-                                Start a Conversation
-                                <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
-                            </a>
-                        </motion.div>
+                        <ScrollReveal key="contact-cta" direction="left" distance={80}>
+                            <div className="relative overflow-visible">
+                                <h2 className="text-6xl md:text-7xl font-black tracking-tight mb-8 leading-[1.3] text-gray-900 dark:text-white overflow-visible">
+                                    Ready to build the <br />
+                                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 italic py-8 -my-8 pr-12" style={{ WebkitBoxDecorationBreak: 'clone', boxDecorationBreak: 'clone' }}>next big thing?</span>
+                                </h2>
+                                <p className="text-xl text-gray-500 dark:text-gray-400 font-medium mb-10 max-w-lg">
+                                    I'm currently available for freelance projects and full-time opportunities. Let's create something extraordinary together.
+                                </p>
+                                <a
+                                    href="mailto:kumar.neeraj.developer@gmail.com"
+                                    className="inline-flex items-center gap-4 bg-black dark:bg-white text-white dark:text-black px-10 py-5 rounded-full text-lg font-bold hover:bg-indigo-600 dark:hover:bg-indigo-400 hover:shadow-2xl hover:shadow-indigo-200 dark:hover:shadow-indigo-900/40 transition-all duration-500 group"
+                                >
+                                    Start a Conversation
+                                    <ArrowRight size={24} className="group-hover:translate-x-2 transition-transform" />
+                                </a>
+                            </div>
+                        </ScrollReveal>
 
                         <div className="flex flex-col items-center lg:items-end gap-6 pt-4 lg:pt-0">
                             <span className="text-[10px] font-black uppercase tracking-[0.4em] text-gray-400 dark:text-gray-500">Connectivity</span>
