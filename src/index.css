@@ -1,1 +1,82 @@
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* Colors based on Capes.app aesthetic */
+    --color-brand: #5865F2;
+    /* Capes Blurple */
+    --color-brand-hover: #4752C4;
+    --color-surface: #FFFFFF;
+    --color-bg-secondary: #F9FAFB;
+    --color-border: #E5E7EB;
+    --color-text-primary: #111827;
+    --color-text-secondary: #4B5563;
+
+    --animate-marquee: marquee 30s linear infinite;
+    --animate-marquee-reverse: marquee-reverse 30s linear infinite;
+
+    @keyframes marquee {
+        from {
+            transform: translateX(0);
+        }
+
+        to {
+            transform: translateX(-50%);
+        }
+    }
+
+    @keyframes marquee-reverse {
+        from {
+            transform: translateX(-50%);
+        }
+
+        to {
+            transform: translateX(0);
+        }
+    }
+}
+
+@layer base {
+    body {
+        @apply bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 selection:bg-indigo-100 dark:selection:bg-indigo-900;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply bg-gray-50 dark:bg-gray-900;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        @apply bg-indigo-500 rounded-full border-2 border-solid border-gray-50 dark:border-gray-900 transition-colors;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-indigo-800 dark:bg-indigo-400;
+    }
+
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: theme('colors.indigo.500') theme('colors.gray.50');
+    }
+}
+
+.mask-fade {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-gray-900 dark:from-white via-gray-800 dark:via-gray-200 to-gray-600 dark:to-gray-400;
+}
+
+.card-premium {
+    @apply bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 shadow-xl dark:shadow-2xl dark:shadow-black/20 transition-all duration-300;
+}
