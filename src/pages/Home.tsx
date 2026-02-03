@@ -331,19 +331,19 @@ const Home = () => {
                     {/* Tab Switcher */}
                     <ScrollReveal key="project-tabs" direction="up" delay={0.2} distance={30}>
                         <div className="flex justify-center mb-16">
-                            <div className="bg-gray-50 dark:bg-gray-900 p-2 rounded-2xl flex relative border border-gray-100 dark:border-gray-800 shadow-sm">
+                            <div className="bg-gray-100 dark:bg-gray-900 p-1 rounded-lg flex relative border border-gray-200 dark:border-gray-800">
                                 {projects.map((project) => (
                                     <button
                                         key={project.id}
                                         onClick={() => setActiveProject(project.id)}
-                                        className={`relative z-10 px-16 py-4 text-sm font-bold transition-colors duration-300 min-w-[200px] ${activeProject === project.id ? 'text-black dark:text-white' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
+                                        className={`relative z-10 px-6 md:px-12 py-2.5 text-sm font-bold transition-colors duration-300 flex-1 md:flex-none md:min-w-[150px] rounded-md ${activeProject === project.id ? 'text-black dark:text-white' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'
                                             }`}
                                     >
                                         {project.name}
                                         {activeProject === project.id && (
                                             <motion.div
                                                 layoutId="activeTab"
-                                                className="absolute inset-0 bg-white dark:bg-gray-800 rounded-xl shadow-md -z-10 border border-gray-100 dark:border-gray-700"
+                                                className="absolute inset-0 bg-white dark:bg-gray-800 rounded-md shadow-sm -z-10 border border-gray-200 dark:border-gray-700"
                                                 transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                             />
                                         )}
