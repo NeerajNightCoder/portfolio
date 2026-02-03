@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Code, Globe, Zap, Github, Linkedin, ArrowUp, Phone, Info, ExternalLink, Sun, Moon } from 'lucide-react';
+import { useLenis } from '@studio-freight/react-lenis';
+import { ArrowRight, Code, Globe, Zap, Github, Linkedin, ArrowUp, Phone, Info, ExternalLink, Sun, Moon, Menu, X } from 'lucide-react';
 import InfiniteMarquee from '../components/InfiniteMarquee';
 import ProjectExplorer from '../components/ProjectExplorer';
 import { useTheme } from '../context/ThemeContext';
 import { SiReact, SiTypescript, SiNodedotjs, SiPostgresql, SiTailwindcss, SiVite, SiDocker, SiNextdotjs, SiAmazonwebservices, SiFigma } from 'react-icons/si';
 import { ScrollReveal } from '../components/ScrollReveal';
-import profileImg from '../assets/profile.png';
+
 
 const projectDetails: Record<string, any> = {
     capes: {
@@ -69,6 +70,29 @@ const Home = () => {
     const { theme, toggleTheme } = useTheme();
     const [activeProject, setActiveProject] = useState('capes');
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const lenis = useLenis();
+    const menuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                mobileMenuOpen &&
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target as Node)
+            ) {
+                setMobileMenuOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [mobileMenuOpen]);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -84,23 +108,112 @@ const Home = () => {
     }, []);
 
     const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (lenis) {
+            lenis.scrollTo(0, { duration: 1.5 });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     };
 
     const scrollToSection = (id: string) => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+        if (lenis) {
+            lenis.scrollTo(`#${id}`, { offset: 0, duration: 1.5 });
+        } else {
+            const element = document.getElementById(id);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
         }
     };
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 selection:bg-indigo-100 dark:selection:bg-indigo-900 overflow-x-hidden transition-colors duration-500">
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[45] bg-black/20 backdrop-blur-[1px] md:hidden"
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Mobile Menu Overlay - High Z-Index to cover Navbar */}
+            <AnimatePresence>
+                {mobileMenuOpen && (
+                    <motion.div
+                        ref={menuRef}
+                        initial={{ y: -100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -100, opacity: 0 }}
+                        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+                        className="fixed top-0 left-0 w-full z-[60] bg-white dark:bg-gray-950 rounded-b-[2rem] shadow-2xl overflow-hidden md:hidden"
+                    >
+                        <div className="p-6">
+                            {/* Mobile Menu Header */}
+                            <div className="flex justify-between items-center mb-8">
+                                <span className="font-black text-xl tracking-tighter dark:text-white">Kr.Neeraj</span>
+                                <div className="flex items-center gap-3">
+                                    <button
+                                        onClick={toggleTheme}
+                                        className="p-2 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors border border-gray-100 dark:border-gray-700"
+                                    >
+                                        {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
+                                    </button>
+                                    <button
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="p-2 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors border border-gray-100 dark:border-gray-700"
+                                    >
+                                        <X size={20} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Mobile Menu Links */}
+                            <div className="flex flex-col gap-6 text-center mb-8">
+                                <button
+                                    onClick={() => { scrollToSection('work'); setMobileMenuOpen(false); }}
+                                    className="text-lg font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2"
+                                >
+                                    Work
+                                </button>
+                                <button
+                                    onClick={() => { scrollToSection('about'); setMobileMenuOpen(false); }}
+                                    className="text-lg font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2"
+                                >
+                                    About
+                                </button>
+                                <button
+                                    onClick={() => { scrollToSection('contact'); setMobileMenuOpen(false); }}
+                                    className="text-lg font-bold text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 py-2"
+                                >
+                                    Contact
+                                </button>
+                            </div>
+
+                            {/* Mobile CTA */}
+                            <div className="pb-4 px-4">
+                                <a
+                                    href="mailto:kumar.neeraj.developer@gmail.com"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex w-full justify-center bg-black dark:bg-white dark:text-black text-white px-6 py-4 rounded-xl font-bold hover:bg-indigo-600 dark:hover:bg-indigo-400 transition-all shadow-lg shadow-indigo-200 dark:shadow-none"
+                                >
+                                    Say Hello
+                                </a>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Header / Nav */}
             <nav className="fixed top-0 w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-6 py-4 transition-colors duration-500">
                 <div className="max-w-6xl mx-auto flex justify-between items-center">
                     <button onClick={scrollToTop} className="font-black text-xl tracking-tighter hover:opacity-70 transition-opacity dark:text-white">Kr.Neeraj</button>
-                    <div className="flex items-center gap-8 text-sm font-semibold text-gray-500 dark:text-gray-400">
+
+                    {/* Desktop Navigation */}
+                    <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-500 dark:text-gray-400">
                         <button onClick={() => scrollToSection('work')} className="hover:text-black dark:hover:text-white transition-colors">Work</button>
                         <button onClick={() => scrollToSection('about')} className="hover:text-black dark:hover:text-white transition-colors">About</button>
                         <button onClick={() => scrollToSection('contact')} className="hover:text-black dark:hover:text-white transition-colors">Contact</button>
@@ -128,7 +241,20 @@ const Home = () => {
                             Say Hello
                         </a>
                     </div>
+
+                    {/* Mobile Menu Button - visible only when menu is closed basically, but covered by overlay anyway */}
+                    <div className="md:hidden flex items-center gap-4">
+                        <button
+                            ref={buttonRef}
+                            onClick={() => setMobileMenuOpen(true)}
+                            className="p-2 text-gray-600 dark:text-gray-300"
+                        >
+                            <Menu size={24} />
+                        </button>
+                    </div>
                 </div>
+
+                {/* Old Mobile Menu Overlay removed from here */}
             </nav>
 
             {/* Hero Section */}
@@ -146,7 +272,7 @@ const Home = () => {
                                 <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-500" />
                                 <div className="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-white dark:border-gray-900 shadow-2xl overflow-hidden ring-1 ring-gray-100 dark:ring-gray-800">
                                     <img
-                                        src={profileImg}
+                                        src="/profile.png"
                                         alt="Kumar Neeraj"
                                         className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
                                     />
@@ -473,7 +599,7 @@ const Home = () => {
                     </motion.button>
                 )}
             </AnimatePresence>
-        </div>
+        </div >
     );
 };
 
